@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D rb;
-    public float speed = 1;
+    public float speed = 0.1f;
     private Animator anim;
 
 
