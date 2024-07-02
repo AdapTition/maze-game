@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
         //змінюємо позицію rb, додаючи вектор напряму руху до її координат.
         rb.MovePosition(rb.position + moveInput * speed);
 
+        // Перевіряємо чи рухається персонаж. Це можна використати для запуску анімації ходьби.
         if(moveInput.x != 0 || moveInput.y != 0  ){
             anim.SetBool("isRunning", true);
         }
