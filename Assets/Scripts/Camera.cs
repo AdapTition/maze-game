@@ -5,17 +5,16 @@ using UnityEngine;
 public class Camera : MonoBehaviour
 {
     [SerializeField]
-    public Player Player;
+    public Player speed;
     
     Rigidbody2D cam_rb;
-    private float cam_speed = 0.1f;
+    private float cam_speed = 0.3f;
 
 
     void Start()
     {
         //запитуємо компонент Rigidbody для майбутньої взаємодії з ним через змінну rb
         cam_rb = GetComponent<Rigidbody2D>();
-        cam_speed = GetComponent<Player>().speed;
     }
 
     void FixedUpdate()

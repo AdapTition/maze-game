@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    Rigidbody2D rb;
-    public float speed = 0.1f;
+    public Rigidbody2D rb;
+    private float speed = 0.3f;
     private Animator anim;
 
 
@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     {
         //Зберігаємо значення вектора напряму руху.
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
 
         //змінюємо позицію rb, додаючи вектор напряму руху до її координат.
         rb.MovePosition(rb.position + moveInput * speed);
