@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField]
-    public Player speed;
-    
-    Rigidbody2D cam_rb;
+    private Rigidbody2D cam_rb;
     private float cam_speed = 0.3f;
     internal static object main;
 

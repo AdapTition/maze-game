@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Solid
   - Enemy
+  - Potion
+  - Shield
   layers:
   - Default
   - TransparentFX

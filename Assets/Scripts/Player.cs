@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
 
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
     private float speed = 0.3f;
     private Animator anim;
+
+    public Text healthDisplay;
     public int health;
+    public int armour;
 
 
     void Start()
@@ -16,6 +20,7 @@ public class Player : MonoBehaviour
         //запитуємо компонент Rigidbody для майбутньої взаємодії з ним через змінну rb
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        healthDisplay.text = "HP:" + health;
     }
 
 
@@ -36,16 +41,25 @@ public class Player : MonoBehaviour
             anim.SetBool("isRunning", false);
         }
     }
-    /*public void OnTriggerEnter(){
+    private void OnTriggerEnter2D(Collider2D other){
         if(other.CompareTag("Potion")){
             ChangeHealth(1);
             Destroy(other.gameObject);
         }
+        else if(other.CompareTag("Shield")){
+            ChangeArmour(3);
+            Destroy(other.gameObject);
+        }
+
     }
 
     public void ChangeHealth (int changeValue){
         health += changeValue;
+        healthDisplay.text = "HP:" + health;
     }
-    */
+    public void ChangeArmour (int changeValue){
+        armour += changeValue;
+    }
+    
 
 }
