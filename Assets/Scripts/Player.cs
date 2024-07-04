@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
     public Rigidbody2D rb;
     private float speed = 0.3f;
     private Animator anim;
+    public int health;
 
 
     void Start()
@@ -15,6 +17,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
+
 
     void FixedUpdate()
     {
@@ -32,6 +35,17 @@ public class Player : MonoBehaviour
         else{
             anim.SetBool("isRunning", false);
         }
-
     }
+    /*public void OnTriggerEnter(){
+        if(other.CompareTag("Potion")){
+            ChangeHealth(1);
+            Destroy(other.gameObject);
+        }
+    }
+
+    public void ChangeHealth (int changeValue){
+        health += changeValue;
+    }
+    */
+
 }
