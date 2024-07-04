@@ -10,17 +10,29 @@ public class Player : MonoBehaviour
     private float speed = 0.3f;
     private Animator anim;
 
-    public Text healthDisplay;
-    public int health;
-    public int armour;
+    [Header ("Health")]
+    public int healthCount;
+    public Sprite[] healthPNG = new Sprite[5];
+    public GameObject HealthImage;
+
+    [Header ("Armour")]
+    public int armourCount;
+    public Sprite[] armourPNG = new Sprite[5];
+    public GameObject ArmourImage;
 
 
     void Start()
     {
         //запитуємо компонент Rigidbody для майбутньої взаємодії з ним через змінну rb
+        
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        healthDisplay.text = "HP:" + health;
+        HealthImage.AddComponent(typeof(Image));
+        HealthImage.GetComponent<Image>().sprite = healthPNG[healthCount];
+
+        ArmourImage.AddComponent(typeof(Image));
+        ArmourImage.GetComponent<Image>().sprite = armourPNG[armourCount];
+
     }
 
 
@@ -43,23 +55,30 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other){
         if(other.CompareTag("Potion")){
-            ChangeHealth(1);
-            Destroy(other.gameObject);
+            if(healthCount < 4){
+                ChangeHealth(1);
+                Destroy(other.gameObject);
+            }
         }
         else if(other.CompareTag("Shield")){
-            ChangeArmour(3);
-            Destroy(other.gameObject);
+            if(armourCount < 4){
+                ChangeArmour(1);
+                Destroy(other.gameObject);
+            }
         }
 
     }
 
     public void ChangeHealth (int changeValue){
-        health += changeValue;
-        healthDisplay.text = "HP:" + health;
+        healthCount += changeValue;
+        HealthImage.GetComponent<Image>().sprite = healthPNG[healthCount];
     }
     public void ChangeArmour (int changeValue){
-        armour += changeValue;
+        armourCount += changeValue;
+        ArmourImage.GetComponent<Image>().sprite = armourPNG[armourCount];
     }
+
+
     
 
 }
