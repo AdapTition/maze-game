@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     public Sprite[] armourPNG = new Sprite[5];
     public GameObject ArmourImage;
 
+    [Header ("Bucket")]
+    public Sprite[] bucketPNG = new Sprite[5];
+    public GameObject BucketImage;
+
 
     void Start()
     {
@@ -27,11 +31,14 @@ public class Player : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
         HealthImage.AddComponent(typeof(Image));
         HealthImage.GetComponent<Image>().sprite = healthPNG[healthCount];
 
         ArmourImage.AddComponent(typeof(Image));
         ArmourImage.GetComponent<Image>().sprite = armourPNG[armourCount];
+
+        this.BucketImage.GetComponent<SpriteRenderer>().sprite = bucketPNG[armourCount];
 
     }
 
@@ -64,6 +71,7 @@ public class Player : MonoBehaviour
             if(armourCount < 4){
                 ChangeArmour(1);
                 Destroy(other.gameObject);
+                BucketImage.SetActive(true);
             }
         }
 
@@ -75,7 +83,9 @@ public class Player : MonoBehaviour
     }
     public void ChangeArmour (int changeValue){
         armourCount += changeValue;
+
         ArmourImage.GetComponent<Image>().sprite = armourPNG[armourCount];
+        this.BucketImage.GetComponent<SpriteRenderer>().sprite = bucketPNG[armourCount];
     }
 
 

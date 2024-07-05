@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Potion
   - Shield
+  - Door
+  - Room Point
   layers:
   - Default
   - TransparentFX
