@@ -10,6 +10,8 @@ TagManager:
   - Shield
   - Door
   - Room Point
+  - Rooms
+  - Wall
   layers:
   - Default
   - TransparentFX
