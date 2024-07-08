@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random=UnityEngine.Random;
 
@@ -14,13 +15,15 @@ public class NewBehaviourScript : MonoBehaviour
     public Vector2 size;
     public int startPos = 0;
     public GameObject[] rooms;
-    public GameObject vidro;
+
     public bool lastRoom = false;
 
     public Vector2 offset;
 
     List<Cell> board;
-    // Start is called before the first frame update
+
+    public GameObject portalRoom;
+    public GameObject keyRoom;
     void Start()
     {
         MazeGenerator();
@@ -33,8 +36,13 @@ public class NewBehaviourScript : MonoBehaviour
             for (int j = 0; j < size.y; j++)
             {
                 Cell currentCell = board[Mathf.FloorToInt(i+j*size.x)];
-                if (currentCell.visited){
-                    int r = UnityEngine.Random.Range(0, rooms.Length);
+                if ( i == j && i == size.x - 1){
+                    var newRoom = Instantiate(portalRoom, new Vector2(i*offset.x , -j*offset.y), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
+                    newRoom.UpdateRoom(board[Mathf.FloorToInt(i+j*size.x)].status);
+                    newRoom.name += " "+ i + "-" + j;
+                }
+                else if (currentCell.visited){
+                    int r = UnityEngine.Random.Range(1, rooms.Length);
                     var newRoom = Instantiate(rooms[r], new Vector2(i*offset.x , -j*offset.y), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
                     newRoom.UpdateRoom(board[Mathf.FloorToInt(i+j*size.x)].status);
 

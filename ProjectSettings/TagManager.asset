@@ -12,6 +12,8 @@ TagManager:
   - Room Point
   - Rooms
   - Wall
+  - Teleporter
+  - Key
   layers:
   - Default
   - TransparentFX

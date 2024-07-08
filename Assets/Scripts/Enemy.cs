@@ -5,25 +5,35 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private Player player;
+    private Transform target;
+    private Animator animator;
+    private Rigidbody2D rb;
     public int health;
     public float speed;
     private float normalSpeed;
     public int damage;
+    private bool isActive;
 
     private float timeBtwAttack;
     public float startTimeBtwAttack;
     private float stopTime;
-    private float startStopTime;
-    private Player player;
-    private Animator animator;
+    public float startStopTime;
+
+
 
     void Start(){
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         player = FindObjectOfType<Player>();
         normalSpeed = speed;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
     void Update()
     {
+        if (!isActive){
+            return;
+        }
         if (stopTime <= 0){
             speed = normalSpeed;
         }
@@ -31,31 +41,55 @@ public class Enemy : MonoBehaviour
             speed = 0;
             stopTime -= Time.deltaTime;
         }
+        
         if (health <= 0){
             Destroy(gameObject);
         }
-        transform.Translate(Vector2.left* speed * Time.deltaTime);
+        
+        if (target.position.x < transform.position.x){
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else{ 
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
     
     public void TakeDamage(int damage){
+        stopTime = startStopTime;
         health -= damage;
     }
     private void OnTriggerStay2D(Collider2D other){
         if (other.CompareTag("Player")){
             if(timeBtwAttack <= 0){
-                animator.SetTrigger("attack");
+                animator.SetBool("enemyAttack", true);
             }
             else{
                 timeBtwAttack -= Time.deltaTime;
             }
         }
     }
-    public void OnEnemtAttack(int damage){
+    public void OnEnemyAttack(int damage){
+        animator.SetBool("enemyAttack", false);
         if (player.armourCount != 0){
-            int a = damage;
-            damage -= player.armourCount;
-            player.armourCount -= a;
+            player.ChangeArmour(-damage);
         }
-        player.healthCount -= damage;
+        else{
+            player.ChangeHealth(-damage);
+        }
+
+        timeBtwAttack = startTimeBtwAttack;      
+    }
+
+    public void Activate()
+    {
+        isActive = true;
+        // Додаткова логіка активації (наприклад, ввімкнення анімації)
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+        // Додаткова логіка деактивації (наприклад, вимкнення анімації)
     }
 }

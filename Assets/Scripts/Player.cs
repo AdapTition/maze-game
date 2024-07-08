@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private float speed = 0.3f;
     private Animator anim;
+    private bool key = false;
 
     [Header ("Health")]
     public int healthCount;
@@ -23,6 +25,8 @@ public class Player : MonoBehaviour
     [Header ("Bucket")]
     public Sprite[] bucketPNG = new Sprite[5];
     public GameObject BucketImage;
+
+    private GameObject currentTeleporter;
 
 
     void Start()
@@ -74,21 +78,36 @@ public class Player : MonoBehaviour
                 BucketImage.SetActive(true);
             }
         }
+        else if(other.CompareTag("Key")){
+            key = true;
+            Destroy(other.gameObject);
+        }
 
     }
-
     public void ChangeHealth (int changeValue){
         healthCount += changeValue;
         HealthImage.GetComponent<Image>().sprite = healthPNG[healthCount];
+        if (healthCount == 0){
+            SceneManager.LoadScene("SampleScene");
+        }
+
     }
     public void ChangeArmour (int changeValue){
-        armourCount += changeValue;
-
+        if (armourCount >= changeValue * (-1) ){
+            armourCount += changeValue;
+        }
+        else{
+            changeValue -= armourCount;
+            armourCount = 0;
+            ChangeHealth(changeValue);
+        }
         ArmourImage.GetComponent<Image>().sprite = armourPNG[armourCount];
         this.BucketImage.GetComponent<SpriteRenderer>().sprite = bucketPNG[armourCount];
     }
 
+    public bool IsKeyReached(){
+        return key;
+    }
 
-    
 
 }
