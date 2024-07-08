@@ -15,8 +15,11 @@ public class Enemy : MonoBehaviour
     public int damage;
     private bool isActive;
 
+    //затримка між ударами
     private float timeBtwAttack;
     public float startTimeBtwAttack;
+
+    //пауза при отриманні урону
     private float stopTime;
     public float startStopTime;
 
@@ -31,6 +34,7 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        //якщо гравець не увійшов до кімнати, поле isActive обриває ітерації циклу, не даючи цим ворогу рухатись.
         if (!isActive){
             return;
         }
@@ -46,19 +50,27 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
         
+        //mirror enemy object according to target position
         if (target.position.x < transform.position.x){
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
         else{ 
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
+        //move towards target
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
     
+
+    //метод обробки отриманого урону.
     public void TakeDamage(int damage){
-        stopTime = startStopTime;
         health -= damage;
+        
+        //маленька пауза в момент отримання урону
+        stopTime = startStopTime;
     }
+
+    //атака гравця, якщо той поруч і перезарядка атаки вже закінчена.
     private void OnTriggerStay2D(Collider2D other){
         if (other.CompareTag("Player")){
             if(timeBtwAttack <= 0){
@@ -69,27 +81,23 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    public void OnEnemyAttack(int damage){
+
+    //метод, що передає гравцю урон.
+    public void OnEnemyAttack(){
         animator.SetBool("enemyAttack", false);
-        if (player.armourCount != 0){
-            player.ChangeArmour(-damage);
-        }
-        else{
-            player.ChangeHealth(-damage);
-        }
+        player.ChangeArmour(-damage);
 
         timeBtwAttack = startTimeBtwAttack;      
     }
 
+    //методи доступу до поля isActive.
     public void Activate()
     {
         isActive = true;
-        // Додаткова логіка активації (наприклад, ввімкнення анімації)
     }
 
     public void Deactivate()
     {
         isActive = false;
-        // Додаткова логіка деактивації (наприклад, вимкнення анімації)
     }
 }

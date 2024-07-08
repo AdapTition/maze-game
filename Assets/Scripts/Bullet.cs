@@ -11,9 +11,10 @@ public class Bullet : MonoBehaviour
     public int damage;
     public LayerMask whatIsSolid;
 
-    // Update is called once per frame
+    
     void Update()
     {
+        //перевірка чи влучила куля в об'єкт шару "Solid". наносить ворогу урон, якщо в нього влучила.
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, distance, whatIsSolid);
         if (hitInfo.collider != null){
             if(hitInfo.collider.CompareTag("Enemy")){

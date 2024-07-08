@@ -391,16 +391,11 @@
 "Assets/RoomsDFS/Scripts/Last Room Door.cs"
 "Assets/RoomsDFS/Scripts/RoomBehaviour.cs"
 "Assets/Scripts/Bullet.cs"
-"Assets/Scripts/CameraMovement.cs"
 "Assets/Scripts/DungeonCreator.cs"
 "Assets/Scripts/Enemy.cs"
 "Assets/Scripts/Gun.cs"
 "Assets/Scripts/Player.cs"
-"Assets/Scripts/RoomSpawner.cs"
-"Assets/Scripts/RoomVariants.cs"
 "Assets/Scripts/Teleporter.cs"
-"Assets/Scripts/WallRemover.cs"
-"Assets/Scripts/WallStuck.cs"
 -langversion:9.0
 /deterministic
 /optimize+

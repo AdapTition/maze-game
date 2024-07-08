@@ -7,14 +7,15 @@ using UnityEngine;
 public class RoomTrigger : MonoBehaviour
 {
     public Enemy[] enemies; // Массив ворогів у кімнаті
-    public GameObject[] blocks;
     private int enemiesInTheRoom;
 
+
+    // Змінюємо значення поля isActive класу Enemy, якщо гравець зайшов на тригер.
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // Активуємо ворогів при вході гравця в кімнату
+            
             foreach (var enemy in enemies)
             {
                 enemy.Activate();
@@ -23,27 +24,16 @@ public class RoomTrigger : MonoBehaviour
 
     }
 
+    // Деактивуємо ворогів при виході гравця з кімнати
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // Деактивуємо ворогів при виході гравця з кімнати
+            
             foreach (var enemy in enemies)
             {
                 enemy.Deactivate();
             }
         }
-    }
-    int FindObjectsOfTypeWithTag(string tag)
-    {
-        int enemiesInTheRoom = 0;
-        foreach (Transform transform in Resources.FindObjectsOfTypeAll(typeof(Transform)) as Transform[])
-        {
-            if (transform.hideFlags == HideFlags.None && transform.CompareTag(tag))
-            {
-                enemiesInTheRoom ++;
-            }
-        }
-        return enemiesInTheRoom;
     }
 }
