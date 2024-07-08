@@ -10,4 +10,4 @@ Functionality:
 	•	Shields: Two shields generated in the last room.
 	•	Rooms: Spawn randomly, at most 20 rooms in the maze
 
-To launch project, create a new folder and drag evetything in.
+To launch project, create a new folder and drag evetything in. Than open Unity Hub, select Add and choose the maze-game-main. Now you can launch the project.
