@@ -7,7 +7,7 @@ public class LastRoomDoor : MonoBehaviour
     public Player player;
     public GameObject block;
     
-    // Якщо гравець отримаав ключ -- знищуємо блоки, що закривають прохід до порталу.
+    // Destroy the last room door blocks, if player had reached the key.
     private void OnTriggerEnter2D(Collider2D other){
         if (other.CompareTag("Player"))
         {

@@ -6,30 +6,29 @@ using UnityEditor.Rendering;
 using UnityEngine;
 public class RoomTrigger : MonoBehaviour
 {
-    public Enemy[] enemies; // Массив ворогів у кімнаті
+    // Array of enemies in the room
+    public Enemy[] enemies;
     private int enemiesInTheRoom;
 
-
-    // Змінюємо значення поля isActive класу Enemy, якщо гравець зайшов на тригер.
+    // Change the isActive field of the Enemy class when the player enters the trigger
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            
+            // Activate all enemies in the room
             foreach (var enemy in enemies)
             {
                 enemy.Activate();
             }
         }
-
     }
 
-    // Деактивуємо ворогів при виході гравця з кімнати
+    // Deactivate enemies when the player leaves the room
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            
+            // Deactivate all enemies in the room
             foreach (var enemy in enemies)
             {
                 enemy.Deactivate();

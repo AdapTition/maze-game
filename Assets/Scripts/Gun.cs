@@ -5,31 +5,42 @@ using UnityEngine.UIElements;
 
 public class Gun : MonoBehaviour
 {
-    public float offset = -90; // зміщення кута нахилу від переданих координат, що передані ScreenToWorldPoint() методом 
+    // Offset angle from the coordinates provided by ScreenToWorldPoint() method
+    public float offset = -90;
+
+    // Prefab of the bullet to be instantiated
     public GameObject bullet;
-    public Transform shotPoint; // координата місця виліту куль
+
+    // The position where the bullet will be shot from
+    public Transform shotPoint;
+
+    // Time between shot
     private float timeBtwShots;
     public float startTimeBtwShots;
+
     void Update()
     {
-        //зчитування позиції курсору гравця.
+        // Read the player's cursor position
         Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position; 
-        
-        //обрахунок кута нахилу.
+
+        // Calculate the angle of rotation
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        //нахил.
+        // Apply the rotation with an offset
         transform.rotation = Quaternion.Euler(0f, 0f, angle + offset);
 
-        //затримка між пострілами та постріл при натисненні лівої клавіші миші.
-        if ( timeBtwShots <= 0){
+        // Handle shooting delay and shooting when the left mouse button is pressed
+        if (timeBtwShots <= 0){
             if (Input.GetMouseButton(0)){
-                Instantiate (bullet, shotPoint.position, transform.rotation);
+                // Instantiate the bullet at the shot point with the current rotation
+                Instantiate(bullet, shotPoint.position, transform.rotation);
+                // Reset the time between shots
                 timeBtwShots = startTimeBtwShots;
             }
         }
         else {
-        timeBtwShots -= Time.deltaTime;
+            // Decrease the time between shots timer
+            timeBtwShots -= Time.deltaTime;
         }
     }
 }

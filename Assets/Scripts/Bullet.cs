@@ -12,16 +12,19 @@ public class Bullet : MonoBehaviour
     public LayerMask whatIsSolid;
 
     
-    void Update()
-    {
-        //перевірка чи влучила куля в об'єкт шару "Solid". наносить ворогу урон, якщо в нього влучила.
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, distance, whatIsSolid);
-        if (hitInfo.collider != null){
-            if(hitInfo.collider.CompareTag("Enemy")){
-                hitInfo.collider.GetComponent<Enemy>().TakeDamage(damage);
-            }
-            Destroy(gameObject);
+    void Update(){
+    // Check if the bullet hit an object in the "Solid" layer and deal damage to the enemy if hit
+    RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, distance, whatIsSolid);
+    if (hitInfo.collider != null){
+        // If the hit object is tagged as "Enemy", apply damage
+        if(hitInfo.collider.CompareTag("Enemy")){
+            hitInfo.collider.GetComponent<Enemy>().TakeDamage(damage);
         }
-        transform.Translate(Vector2.up * speed * Time.deltaTime);
+        // Destroy the bullet after hitting any object
+        Destroy(gameObject);
+    }
+
+    // Move the bullet
+    transform.Translate(Vector2.up * speed * Time.deltaTime);
     }
 }

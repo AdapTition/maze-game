@@ -31,29 +31,31 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        // Get the Rigidbody2D component, which handles the object's physics
         rb = GetComponent<Rigidbody2D>();
+        
+        // Get the Animator component for animations
         anim = GetComponent<Animator>();
 
-        //Нашалтування відображення спрайтів кількості здоров'я та броні гравця в canvas.
+        // Setting up the sprites for player's health and armor display in the canvas
         HealthImage.AddComponent(typeof(Image));
         HealthImage.GetComponent<Image>().sprite = healthPNG[healthCount];
 
         ArmourImage.AddComponent(typeof(Image));
         ArmourImage.GetComponent<Image>().sprite = armourPNG[armourCount];
 
+        // Setting up the bucket sprite that is displayed on the player
         this.BucketImage.GetComponent<SpriteRenderer>().sprite = bucketPNG[armourCount];
-
     }
-
 
     void FixedUpdate()
     {
-        //реалізація руху rb гравця.
+        // Implementing player movement through Rigidbody2D
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         rb.MovePosition(rb.position + moveInput * speed);
 
-        //ввімкнення анімації руху, коли гравець рухається.
-        if(moveInput.x != 0 || moveInput.y != 0  ){
+        // Enabling the running animation when the player is moving
+        if(moveInput.x != 0 || moveInput.y != 0){
             anim.SetBool("isRunning", true);
         }
         else{
@@ -61,14 +63,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    // метод для обробки тригерів, що гравець зачевив.
+    // Method to handle triggers the player collides with
     private void OnTriggerEnter2D(Collider2D other){
+        // Handling potion collection
         if(other.CompareTag("Potion")){
             if (healthCount < 4){
                 ChangeHealth(1);
                 Destroy(other.gameObject);
             }
         }
+        // Handling shield collection
         else if(other.CompareTag("Shield")){
             if (armourCount < 4){
                 ChangeArmour(4);
@@ -76,33 +80,31 @@ public class Player : MonoBehaviour
                 BucketImage.SetActive(true);
             }
         }
+        // Handling key collection
         else if(other.CompareTag("Key")){
             key = true;
             Destroy(other.gameObject);
         }
-
     }
 
-  //метод обробки змін здоров'я гравця.
-    public void ChangeHealth (int changeValue){
+    // Method to handle changes in player's health
+    public void ChangeHealth(int changeValue){
         if (healthCount <= 4){
             healthCount += changeValue;
-        if (healthCount <= 0){
+            if (healthCount <= 0){
                 SceneManager.LoadScene("SampleScene");
             }
             HealthImage.GetComponent<Image>().sprite = healthPNG[healthCount];
         }
-
     }
 
-    //метод обробки змін броні гравця.
-    public void ChangeArmour (int changeValue){
-        
-        if (changeValue > 0 ){
+    // Method to handle changes in player's armor
+    public void ChangeArmour(int changeValue){
+        if (changeValue > 0){
             armourCount += changeValue;
             if (armourCount > 4) armourCount = 4;
         }
-        else if ( armourCount >= -changeValue){
+        else if (armourCount >= -changeValue){
             armourCount += changeValue;
         }
         else{
@@ -114,10 +116,8 @@ public class Player : MonoBehaviour
         this.BucketImage.GetComponent<SpriteRenderer>().sprite = bucketPNG[armourCount];
     }
 
-    //метод доступу до поля key. необхідне для відкриття припортальних дверей в кінці.
+    // Method to access the key field, necessary for opening the portal doors at the end
     public bool IsKeyReached(){
         return key;
     }
-
-
 }
